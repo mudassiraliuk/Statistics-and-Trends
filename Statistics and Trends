@@ -1,0 +1,69 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+
+# Data related to Renewable Energy and Economic Indicators
+data = {
+    'Country': ['USA', 'China', 'India', 'Germany', 'UK', 'Canada', 'Brazil', 'France', 'Japan', 'Australia'],
+    'RenewableEnergy': [17, 30, 12, 45, 40, 65, 83, 50, 25, 70],  # % share in total energy production
+    'CO2Emissions': [5000, 9000, 2500, 750, 400, 600, 450, 300, 1200, 500],  # Emissions in million metric tons
+    'EnergyConsumption': [80, 130, 50, 45, 40, 35, 32, 38, 55, 30],  # Energy usage in exajoules
+    'GDP': [65000, 12000, 2200, 55000, 45000, 48000, 15000, 42000, 40000, 52000]  # GDP per capita in USD
+}
+
+# Creating DataFrame from the dictionary
+df = pd.DataFrame(data)
+
+# Displaying basic descriptive statistics for the dataset
+print("Descriptive Statistics of the Data:")
+print(df.describe())
+
+# Computing correlation matrix for the numeric columns
+numeric_data = df.select_dtypes(include=['float64', 'int64'])
+correlation_matrix = numeric_data.corr()
+
+# Calculating key statistical moments for 'RenewableEnergy'
+mean_renewable = df['RenewableEnergy'].mean()
+variance_renewable = df['RenewableEnergy'].var()
+skew_renewable = stats.skew(df['RenewableEnergy'])
+kurtosis_renewable = stats.kurtosis(df['RenewableEnergy'])
+
+print("\nKey Statistical Moments for Renewable Energy (% of total energy):")
+print(f"Mean: {mean_renewable}, Variance: {variance_renewable}, Skewness: {skew_renewable}, Kurtosis: {kurtosis_renewable}")
+
+# 1.
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x='RenewableEnergy', y='CO2Emissions', data=df)
+plt.title('Renewable Energy vs CO2 Emissions')
+plt.xlabel('Percentage of Renewable Energy')
+plt.ylabel('CO2 Emissions (Million Metric Tons)')
+plt.show()
+
+# 2. 
+plt.figure(figsize=(10, 6))
+df.groupby('Country')['RenewableEnergy'].mean().plot(kind='bar', color='green')
+plt.title('Renewable Energy by Country')
+plt.xlabel('Countries')
+plt.ylabel('Renewable Energy (% of total)')
+plt.xticks(rotation=45)
+plt.show()
+
+# 3.
+plt.figure(figsize=(10, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Matrix of Energy Factors')
+plt.show()
+
+# 4. 
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='Country', y='RenewableEnergy', data=df)
+plt.title('Renewable Energy Distribution by Country')
+plt.xticks(rotation=45)
+plt.show()
+
+# 5. 
+sns.pairplot(numeric_data)
+plt.suptitle('Pairwise Relationship Plot for Renewable Energy Data', y=1.02)
+plt.show()
+
