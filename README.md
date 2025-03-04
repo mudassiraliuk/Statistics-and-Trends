@@ -13,7 +13,7 @@ Columns: Country, RenewableEnergy, CO2Emissions, EnergyConsumption, GDP.
 
 Run the Analysis
 1: Clone and install dependencies:
-git clone https://github.com/username/repository-name.git
+git clone https://github.com/mudassiraliuk/Statistics-and-Trends.git
 cd repository-name
 pip install -r requirements.txt
 
